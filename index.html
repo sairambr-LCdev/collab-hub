@@ -1,13 +1,74 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>collab-hub</title>
+    <title>CollabHub | Team Platform</title>
+    <!-- Google Fonts for Accessibility & Design -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div id="app"></div>
+    <div class="app-container" id="app">
+      
+      <!-- Sidebar Navigation -->
+      <nav class="sidebar glass" aria-label="Main Navigation">
+        <h2 style="margin-bottom: 2rem; color: var(--accent-primary);">CollabHub</h2>
+        
+        <section aria-labelledby="projects-heading">
+          <h3 id="projects-heading" style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.875rem; text-transform: uppercase;">Active Projects</h3>
+          <ul id="project-list" style="list-style: none;">
+            <!-- Rendered by JS -->
+          </ul>
+        </section>
+      </nav>
+
+      <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-nav glass">
+          <h1 id="current-project-title">Project Dashboard</h1>
+          <div class="user-profile" aria-label="User Profile">
+            <span id="user-avatar" style="font-size: 1.5rem;" aria-hidden="true">😎</span>
+            <span id="user-name" style="margin-left: 0.5rem; font-weight: 600;">Admin User</span>
+          </div>
+        </header>
+
+        <div class="content-body">
+          <!-- Task Board Area -->
+          <section class="task-board" aria-label="Task Board">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h2>Project Tasks</h2>
+              <button id="add-task-btn" aria-label="Add new task">Add Task +</button>
+            </div>
+            <div id="task-list" class="task-list" aria-live="polite">
+              <!-- Rendered by JS -->
+            </div>
+          </section>
+
+          <!-- Chat & Bot Area -->
+          <aside class="chat-panel glass" aria-label="Project Chat and AI Bot">
+            <div class="chat-header">
+              Project Chat & CollabBot
+            </div>
+            
+            <div id="chat-messages" class="chat-messages" aria-live="assertive" role="log">
+              <!-- Rendered by JS -->
+            </div>
+
+            <form id="chat-form" class="chat-input-area">
+              <input 
+                type="text" 
+                id="chat-input" 
+                placeholder="Type a message or @bot..." 
+                aria-label="Chat input field"
+                autocomplete="off"
+              />
+              <button type="submit" aria-label="Send message">Send</button>
+            </form>
+          </aside>
+        </div>
+
+      </main>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
