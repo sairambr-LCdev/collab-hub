@@ -151,8 +151,7 @@ export const createConversation = async (type, name, participants, contextId = n
 
 export const subscribeToConversations = (userId, callback) => {
     const q = query(collection(db, "conversations"), 
-                    where("participants", "array-contains", userId),
-                    orderBy("lastUpdatedAt", "desc"));
+                    where("participants", "array-contains", userId));
     return onSnapshot(q, (snapshot) => {
         const convs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         callback(convs);
