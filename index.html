@@ -3,104 +3,113 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CollabHub | Projects Dashboard</title>
+    <title>CollabHub | Enterprise SaaS</title>
   </head>
   <body>
-    <div class="app-container" id="app">
+    
+    <!-- Authentication Screen -->
+    <div id="login-screen">
+      <div class="login-box">
+        <h1 style="margin-bottom: 1rem; color: var(--accent)">CollabHub</h1>
+        <p style="margin-bottom: 2rem; color: var(--text-secondary)">Secure Team Collaboration Platform</p>
+        <button id="btn-login" class="primary" style="font-size: 1.1rem; padding: 1rem 2rem;">Sign in with Google</button>
+      </div>
+    </div>
+
+    <!-- Main Application -->
+    <div class="app-container hidden" id="app">
       
-      <!-- Zoho-Style Left Sidebar -->
       <nav class="sidebar" aria-label="Main Navigation">
-        <div class="sidebar-header">
-          CollabHub 🚀
-        </div>
+        <div class="sidebar-header">CollabHub 🚀</div>
         <div class="nav-section">
-          <div class="nav-heading">Portfolios</div>
-          <div id="project-list">
-            <!-- Rendered by JS -->
+          <div class="nav-heading">
+            Portfolios
+            <button id="btn-new-project" class="secondary" style="background:transparent; color:var(--accent); border:none; font-size:1.2rem; padding:0;">+</button>
           </div>
+          <div id="project-list"></div>
         </div>
       </nav>
 
       <main class="main-content">
-        <!-- Zoho-Style Top Nav Band -->
         <header class="top-nav">
           <div class="project-tabs">
-            <div class="tab active">Dashboard</div>
-            <div class="tab">Tasks</div>
-            <div class="tab">Milestones</div>
+            <div class="tab active" id="tab-dashboard">Dashboard</div>
+            <div class="tab" id="tab-chat">Messages</div>
           </div>
           <div class="user-profile">
-            <span id="user-avatar">👤</span>
-            <span id="user-name" style="font-weight: 600; font-size: 0.875rem;">Admin</span>
+            <span id="user-name" style="font-weight: 600; font-size: 0.875rem;">Loading...</span>
+            <button id="btn-logout" class="secondary">Logout</button>
           </div>
         </header>
 
-        <!-- Widget-Based Dashboard Area -->
-        <div class="dashboard-wrapper">
+        <!-- DASHBOARD VIEW -->
+        <div id="view-dashboard" class="dashboard-wrapper">
           <div class="dashboard-header">
-            <h1 id="current-project-title" style="font-size: 1.5rem; color: var(--text-primary);">Project Dashboard</h1>
-            <button id="add-task-btn" class="primary">+ New Task</button>
+            <div>
+                <h1 id="current-project-title" style="font-size: 1.5rem;">Select a Project</h1>
+                <div id="project-members-list" style="margin-top: 0.5rem; display: flex; gap: 0.5rem; align-items: center;"></div>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <button id="btn-add-member" class="secondary" style="display:none;">+ Add Member</button>
+                <button id="add-task-btn" class="primary" style="display:none;">+ New Task</button>
+            </div>
           </div>
 
           <div class="dashboard-grid">
-            
-            <!-- Widget 1: Task Status Overview -->
             <div class="widget">
-              <div class="widget-header">
-                <span>Project Health</span>
-              </div>
+              <div class="widget-header"><span>Project Health</span></div>
               <div class="widget-content">
-                <div class="stats-container" id="project-stats">
-                  <!-- Rendered by JS -->
-                </div>
+                <div class="stats-container" id="project-stats"></div>
               </div>
             </div>
 
-            <!-- Widget 2: Recent Tasks (Spans 2 columns) -->
             <div class="widget widget-span-2">
-              <div class="widget-header">
-                <span>Active Tasks</span>
-              </div>
+              <div class="widget-header"><span>Active Tasks</span></div>
               <div class="widget-content">
                 <div id="task-list" class="task-list">
-                  <!-- Rendered by JS -->
+                  <p style="color: var(--text-secondary);">Select a project to view tasks.</p>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
 
-            <!-- Widget 3: CollabBot Contextual Chat -->
-            <div class="widget widget-span-2">
-              <div class="widget-header">
-                <span>Team Feed & CollabBot</span>
-              </div>
-              <div class="widget-content" style="display: flex; flex-direction: column;">
-                <div id="chat-messages" class="chat-messages">
-                  <!-- Rendered by JS -->
-                </div>
-                <form id="chat-form" class="chat-input-area">
-                  <input type="text" id="chat-input" placeholder="Discuss work or ask @bot for stats..." autocomplete="off" />
-                  <button type="submit" class="primary">Send</button>
-                </form>
-              </div>
+        <!-- CHAT HUB VIEW -->
+        <div id="view-chat" class="dashboard-wrapper hidden" style="padding: 0; display: flex;">
+          <!-- Conversation List -->
+          <div style="width: 300px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: white;">
+            <div style="padding: 1rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+              <h2 style="font-size: 1rem;">Conversations</h2>
+              <button id="btn-new-chat" class="secondary" title="New Chat">+</button>
             </div>
-
-            <!-- Widget 4: Quick Links / Details -->
-            <div class="widget">
-              <div class="widget-header">
-                <span>Project Details</span>
-              </div>
-              <div class="widget-content">
-                <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5;">
-                  This project workspace is monitored by CollabBot. All tasks and events are automatically tracked in real-time.
-                </p>
-              </div>
+            <div id="conversation-list" style="flex: 1; overflow-y: auto;">
+              <!-- Conversations rendered here -->
             </div>
+          </div>
 
+          <!-- Active Chat Window -->
+          <div style="flex: 1; display: flex; flex-direction: column; background: var(--bg-app);">
+            <div id="active-chat-header" style="padding: 1rem; background: white; border-bottom: 1px solid var(--border); font-weight: 600;">
+              Select a conversation to start chatting
+            </div>
+            <div id="chat-hub-messages" class="chat-messages" style="flex: 1; padding: 1.5rem; margin-bottom: 0;"></div>
+            <form id="chat-hub-form" class="chat-input-area" style="padding: 1rem; background: white; border-top: 1px solid var(--border); display: none;">
+              <input type="text" id="chat-hub-input" placeholder="Type a message..." autocomplete="off" />
+              <button type="submit" class="primary">Send</button>
+            </form>
           </div>
         </div>
 
       </main>
     </div>
+
+    <!-- Modals (Simple Prompts or Hidden Divs) -->
+    <div id="modal-container" class="hidden" style="position: fixed; inset:0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 10000;">
+        <div id="modal-content" class="login-box" style="width: 400px; padding: 2rem;">
+            <!-- Dynamic Content -->
+        </div>
+    </div>
+    
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
